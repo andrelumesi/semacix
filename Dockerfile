@@ -1,42 +1,5 @@
 4 Exemplos de uso
 
-4.1 Postgres
-saythanks
-
-Vamos criar um container que possui um banco de dados Postgres e faça a disponibilização desse para uso.
-
-docker run --name postgresbd -e POSTGRES_PASSWORD=123@abc -p 5432:5432 -d postgres
-
-4.2 Postgres + PostGIS
-
-O Postgres possui uma extensão para trabalhar dados geoespaciais, com o Docker a utilização deste é muito simples. Através de uma imagem disponibilizada por um usuário do Dockerhub, todas as configurações deste serviço já são feitas. Vejamos como utiliza-lo.
-
-docker run --name postgis -p 25432:5432 -d -t kartoza/postgis
-
-4.3 pgAdmin
-
-docker run -p 8080:80 \
-        -e "PGADMIN_DEFAULT_EMAIL=email@email.com" \
-        -e "PGADMIN_DEFAULT_PASSWORD=1234." \
-        -d dpage/pgadmin4:latest
-
-4.4 Aplicação
-Nesta subseção, vamos inserir uma aplicação Python e Flask dentro de um container. Para isto, inicialmente façamos a criação do arquivo app.py, neste o conteúdo abaixo é inserido.
-
-from flask import *
-from markupsafe import escape
-
-
-app = Flask(__name__)
-
-@app.route('/')
-def ola_no_container():
-    nome = request.args.get("nome")
-    return f"Olá, {escape(nome)}! Estou dentro de um container!"
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
-
 4. Dockerfile. 
 
 Vamos utilizar o container oficial de Python em sua versão 3. Neste Dockerfile especificamos também que um comando RUN deve ser executado, para executar o pip para instalar o Flask, além de copiar o arquivo app.py para dentro do container.
