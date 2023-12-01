@@ -36,9 +36,10 @@ def ola_no_container():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-É possível perceber na listagem de código acima que esta aplicação básicamente inicia um servidor através do Flask e este recebe requisições HTTP que podem conter um parâmetro nome na requisição, e o conteúdo dessa parâmetro passado pelo usuário é exibido no retorno do servidor.
 
-Bem, agora façamos a criação de um Dockerfile. Vamos utilizar o container oficial de Python em sua versão 3. Neste Dockerfile especificamos também que um comando RUN deve ser executado, para executar o pip para instalar o Flask, além de copiar o arquivo app.py para dentro do container.
+4. Dockerfile. 
+
+Vamos utilizar o container oficial de Python em sua versão 3. Neste Dockerfile especificamos também que um comando RUN deve ser executado, para executar o pip para instalar o Flask, além de copiar o arquivo app.py para dentro do container.
 
 Por fim é especificado que o ENTRYPOINT, ou seja, o comando principal do container será o python e ele recebe como parâmetro o nome do arquivo que ele executa (app.py).
 
