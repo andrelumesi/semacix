@@ -1,66 +1,31 @@
 4 Exemplos de uso
-Este capítulo apresenta exemplos de utilização do Docker para a configuração e utilização de diferentes ferramentas. As imagens utilizadas serão recuperadas do Dockerhub. Boa parte dessas imagens oficiais, ou seja, distribuídas pelo grupo, organização ou instituição que cria a ferramenta.
-
-Aproveite os exemplos para ver o quão simples é o compartilhamento de imagens via registry e também, o quão simples é implantar diferentes serviços com o Docker. Não é necessário diversos arquivos de configuração!
-
-Não deixe de conferir a página de cada imagem no Dockerhub para verificar todas as opções disponíveis.
 
 4.1 Postgres
 saythanks
 
 Vamos criar um container que possui um banco de dados Postgres e faça a disponibilização desse para uso.
 
-Para começar vamos utilizar o comando docker pull, que baixa a imagem do registry, neste caso, do Dockerhub e salva em sua lista de imagens.
-
-docker pull postgres # Imagem oficial
-A imagem já está em sua máquina, agora vamos iniciar o serviço
-
 docker run --name postgresbd -e POSTGRES_PASSWORD=123@abc -p 5432:5432 -d postgres
-O parâmetro -e é utilizado para definir variáveis de ambiente e o -p para definir o direcionamento de porta a ser feito, neste caso, o container recebe na porta 5432 e encaminha para a porta 5432 do serviço que está sendo executado.
-
-Pronto! O serviço do banco de dados já está sendo executado, você pode consultar o container executando através do comando docker ps.
-
-Para se conectar ao banco você pode utilizar as seguintes informações
-
-Endereço: 127.0.0.1
-Porta: 5432
-Usuário: postgres
-Senha: 123@abc
-A imagem utilizada neste exemplo é oficial.
 
 4.2 Postgres + PostGIS
-saythanks
 
 O Postgres possui uma extensão para trabalhar dados geoespaciais, com o Docker a utilização deste é muito simples. Através de uma imagem disponibilizada por um usuário do Dockerhub, todas as configurações deste serviço já são feitas. Vejamos como utiliza-lo.
 
-Vamos baixar a imagem
-
-docker pull kartoza/postgis
-Após baixar a imagem, basta inicializar o container da imagem baixada.
-
 docker run --name postgis -p 25432:5432 -d -t kartoza/postgis
+
 4.3 pgAdmin
-saythanks
-
-Para acessar os serviços de bancos de dados criados anteriormente, pode-se utilizar um container com um pgAdmin.
-
-Vamos começar baixado a versão mais recente desta imagem, para isto, no momento do download a TAG que normalmente indica a versão será passada.
-
-docker pull dpage/pgadmin4:latest
-Agora, vamos executar
 
 docker run -p 8080:80 \
         -e "PGADMIN_DEFAULT_EMAIL=email@email.com" \
         -e "PGADMIN_DEFAULT_PASSWORD=1234." \
         -d dpage/pgadmin4:latest
-Pronto! Agora se você acessar 127.0.0.1:8080
-
-Para entrar, utilize as credenciais definidas nas variáveis de ambiente no momento que o container foi criada.
 
 4.4 Aplicação
 Nesta subseção, vamos inserir uma aplicação Python e Flask dentro de um container. Para isto, inicialmente façamos a criação do arquivo app.py, neste o conteúdo abaixo é inserido.
 
-from flask import Flask, escape, request
+from flask import *
+from markupsafe import escape
+
 
 app = Flask(__name__)
 
